@@ -18,10 +18,9 @@ class Game:
     
     def check_defeat(self):
         """Verifica se o Fantasma pegou o Pac-Man."""
-        return self.pacman.x == self.ghost.x and self.pacman.y == self.ghost.y
+        return self.env.pacman_caught 
     
     def run(self):
-        """Loop principal do jogo."""
         while True:
             os.system("cls" if os.name == "nt" else "clear")
             self.env.render()
@@ -31,10 +30,27 @@ class Game:
                 break
 
             if self.check_defeat():
-                print("💀 O Fantasma pegou o Pac-Man! 💀")
+                break  # Sai sem imprimir mensagem aqui
+
+            self.pacman.move()
+
+            if self.check_defeat():
                 break
 
-            self.pacman.move()  # Pac-Man se move sozinho
-            self.ghost.move()  # Fantasma também se move sozinho
+            self.ghost.move()
 
-            time.sleep(0.5)
+            if self.check_defeat():
+                break
+
+            time.sleep(1)
+
+        # Mostra o estado final do mapa e a mensagem após o jogo acabar
+        os.system("cls" if os.name == "nt" else "clear")
+        self.env.render()
+
+        if self.check_victory():
+            print("🎉 Pac-Man venceu! 🎉")
+        elif self.check_defeat():
+            print("💀 O Fantasma pegou o Pac-Man! 💀")
+
+

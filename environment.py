@@ -1,5 +1,6 @@
 class Environment:
     def __init__(self):
+        self.pacman_caught = False
         # Mapa do jogo: # = Parede, . = Comida, P = Pac-Man, G = Fantasma
         self.map = [
             ["#", "#", "#", "#", "#", "#", "#"],
